@@ -1,5 +1,6 @@
 package com.example.helpergenie2;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
@@ -23,15 +24,25 @@ import android.view.MenuItem;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FragmentManager fragmentManager;
     Fragment mFragment=null;
-    public static String CurrUser;
+    //public static String CurrUser;
     public static String MainCurrUserEmail;
+    private ProgressDialog pd2;
+    private static final int RC_SIGN_IN = 1234;
+    NavigationView navigationView;
+    public boolean flag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +55,9 @@ public class MainActivity extends AppCompatActivity
         final FirebaseUser user = auth.getCurrentUser();
 
         if(user != null){
-            CurrUser = user.getDisplayName();
+            //CurrUser = user.getDisplayName();
             MainCurrUserEmail = user.getEmail().toString();
+            checkFormAndSaveDetails(user.getEmail().toString().replace(".",""));
         }
         else{
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
@@ -68,6 +80,36 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pd2 = new ProgressDialog(MainActivity.this);
+        pd2.setCancelable(false);
+        pd2.setMessage("Veryfying Your Data....\nMake sure you have active connection");
+        pd2.setTitle("Veryfying");
+        pd2.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        //pd2.show();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            // signed In
+            //Toast.makeText(MainActivity.this, "User EmailId is "+user.getEmail().toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, user.getDisplayName()+" is Logged in !", Toast.LENGTH_SHORT).show();
+            //CurrUser = user.getDisplayName();
+            MainCurrUserEmail = user.getEmail().toString();
+            //pd2.dismiss();
+            checkFormAndSaveDetails(user.getEmail().toString().replace(".",""));
+        } else {
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        }
+        if(!flag) {
+           // navigationView.getMenu().getItem(0).setChecked(true);
+        }
+        //Only For DEVELOPMENT OF RETRIVEING DATA:::::::::::::::::::::::
+        //Intent i1 = new Intent(this,TrialFirebase.class);
+        //startActivity(i1);
     }
 
     @Override
@@ -94,8 +136,10 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            AuthUI.getInstance().signOut(this);
+            //Toast.makeText(MainActivity.this, "Sucessfully LoggedOut", Toast.LENGTH_SHORT).show();
+            onResume();
             return true;
         }
 
@@ -123,7 +167,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new AboutUs()).commit();
         }
         else if(id == R.id.nav_logout){
-            AuthUI.getInstance().signOut(MainActivity.this);
+            FirebaseAuth.getInstance().signOut();
             onResume();
         }
         else if(id == R.id.nav_share) {
@@ -150,5 +194,33 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void checkFormAndSaveDetails(String userEmail) {
+        FirebaseDatabase mData;
+        DatabaseReference mRef;
+
+        mData = FirebaseDatabase.getInstance();
+        mRef = mData.getReference().child("users").child(userEmail);
+
+        ValueEventListener val = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FireUser fireUser = dataSnapshot.getValue(FireUser.class);
+                if (fireUser == null){
+                    Intent i1 =  new Intent(MainActivity.this,RegisterForm.class);
+                    startActivity(i1);
+                }else{
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        mRef.addValueEventListener(val);
+
+
     }
 }
