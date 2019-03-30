@@ -14,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -23,6 +26,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+        final FirebaseUser user = auth.getCurrentUser();
+
+        if(user != null){
+
+        }
+        else{
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -88,9 +101,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,LoginActivity.class));
         } else if (id == R.id.nav_slideshow) {
             startActivity(new Intent(this,ForgotPasswordActivity.class));
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_reset) {
 
-        } else if (id == R.id.nav_share) {
+        }else if (id == R.id.nav_logout) {
+        }
+        else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
