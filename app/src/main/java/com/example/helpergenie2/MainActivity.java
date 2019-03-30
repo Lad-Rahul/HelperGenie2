@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new HistoryActivity()).commit();
         }
         else if (id == R.id.nav_help) {
-            //fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new HelpActivity()).commit();
+            fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new HelpActivity()).commit();
         }
         else if (id == R.id.nav_aboutus) {
             fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new AboutUs()).commit();
