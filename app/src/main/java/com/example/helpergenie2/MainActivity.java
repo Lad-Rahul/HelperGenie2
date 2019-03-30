@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static String CurrUser;
+    public static String MainCurrUserEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +35,8 @@ public class MainActivity extends AppCompatActivity
         final FirebaseUser user = auth.getCurrentUser();
 
         if(user != null){
-
+            CurrUser = user.getDisplayName();
+            MainCurrUserEmail = user.getEmail().toString();
         }
         else{
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
