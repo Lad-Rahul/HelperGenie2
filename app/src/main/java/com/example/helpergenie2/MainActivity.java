@@ -1,6 +1,9 @@
 package com.example.helpergenie2;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,8 +20,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -102,27 +108,44 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         fragmentManager =  getSupportFragmentManager();
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            startActivity(new Intent(this,SignupActivity.class));
-        } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent(this,LoginActivity.class));
-        } else if (id == R.id.nav_slideshow) {
-            startActivity(new Intent(this,ForgotPasswordActivity.class));
-        }
-        else if (id == R.id.nav_reset) {
-            mFragment=new AboutUs();
-            FragmentManager manager=getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction=manager.beginTransaction();
-            fragmentTransaction.replace(R.id.alternatingLayout,mFragment);
-            fragmentTransaction.commit();
-            //fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new AboutUs()).commit();
+        if (id == R.id.nav_home) {
 
-            //startActivity(new Intent(this,AboutUs.class));
-        } else if (id == R.id.nav_send) {
-            startActivity(new Intent(this,RemoveUserActivity.class));
+        } else if (id == R.id.nav_profile) {
+            fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new ProfileActivity()).commit();
         }
-
+        else if (id == R.id.nav_history) {
+            fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new HistoryActivity()).commit();
+        }
+        else if (id == R.id.nav_help) {
+            //fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new HelpActivity()).commit();
+        }
+        else if (id == R.id.nav_aboutus) {
+            fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new AboutUs()).commit();
+        }
+        else if(id == R.id.nav_logout){
+            AuthUI.getInstance().signOut(MainActivity.this);
+            onResume();
+        }
+        else if(id == R.id.nav_share) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                ApplicationInfo api = getApplicationContext().getApplicationInfo();
+                String apkPath = api.sourceDir;
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("application/vnd.android.package-archive");
+                Uri shareURI = Uri.fromFile(new File(apkPath));
+                String str = shareURI.toString().replace("file","content");
+                share.putExtra(Intent.EXTRA_STREAM,Uri.parse(str));
+                startActivity(Intent.createChooser(share,"Share Using..."));
+            }
+            else {
+                ApplicationInfo api = getApplicationContext().getApplicationInfo();
+                String apkPath = api.sourceDir;
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("application/vnd.android.package-archive");
+                share.putExtra(Intent.EXTRA_STREAM,Uri.fromFile(new File(apkPath)));
+                startActivity(Intent.createChooser(share,"Share Using..."));
+            }
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

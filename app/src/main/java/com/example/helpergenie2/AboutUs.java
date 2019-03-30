@@ -172,8 +172,6 @@ class expAdapter extends BaseExpandableListAdapter{
 
             HashMap<String, List<String>> HeaderDetails = new HashMap<String, List<String>>();
 
-
-
             List<String> ChildDetails1 = new ArrayList<String>();
             ChildDetails1.add("Our Mission is to provide you services like Plumber, Electrician, Carpenter etc at any time and any location instantly in Today's busy high-tech world ");
 
