@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,7 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    FragmentManager fragmentManager;
+    Fragment mFragment=null;
     public static String CurrUser;
     public static String MainCurrUserEmail;
 
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FragmentManager fragmentManager;
+
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         final FirebaseUser user = auth.getCurrentUser();
 
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        //fragmentManager =  getSupportFragmentManager();
+        fragmentManager =  getSupportFragmentManager();
         if (id == R.id.nav_camera) {
             // Handle the camera action
             startActivity(new Intent(this,SignupActivity.class));
@@ -108,8 +111,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,ForgotPasswordActivity.class));
         }
         else if (id == R.id.nav_reset) {
+            mFragment=new AboutUs();
+            FragmentManager manager=getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction=manager.beginTransaction();
+            fragmentTransaction.replace(R.id.alternatingLayout,mFragment);
+            fragmentTransaction.commit();
             //fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new AboutUs()).commit();
-            startActivity(new Intent(this,AboutUs.class));
+
+            //startActivity(new Intent(this,AboutUs.class));
         } else if (id == R.id.nav_send) {
             startActivity(new Intent(this,RemoveUserActivity.class));
         }

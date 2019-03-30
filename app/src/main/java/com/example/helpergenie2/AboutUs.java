@@ -40,12 +40,12 @@ public class AboutUs extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.activity_about_us,container,false);
         getActivity().setTitle("About us");
         rahul = (TextView)mView.findViewById(R.id.textView14);
         akash = (TextView)mView.findViewById(R.id.textView15);
-        pranav = (TextView)mView.findViewById(R.id.textView887);
+        //pranav = (TextView)mView.findViewById(R.id.textView887);
 
         rahul.setOnClickListener(new View.OnClickListener() {
             @Override
