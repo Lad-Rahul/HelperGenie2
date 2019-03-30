@@ -39,11 +39,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-
-/**
- * Created by LAD on 20-Jan-18.
- */
-
 public class ProfileActivity extends Fragment {
     private TextView mAddressTextView3,mAddressTextView2;
     private TextView mEmailTextView;
