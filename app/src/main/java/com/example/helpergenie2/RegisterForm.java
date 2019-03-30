@@ -16,8 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterForm extends AppCompatActivity {
 
-    private EditText Fmobile,Fadd1,Fadd2,Fpin;
-    private TextView FnameText;
+    private EditText Fmobile,Fadd1,Fadd2,Fpin,Fname;
+    //private TextView FnameText;
     private FirebaseDatabase mData;
     private DatabaseReference mRef;
     private Button btnReg;
@@ -41,23 +41,27 @@ public class RegisterForm extends AppCompatActivity {
         ad.show();
 
         mData = FirebaseDatabase.getInstance();
-        FnameText = (TextView)findViewById(R.id.fnameText);
+        Fname = (EditText)findViewById(R.id.fname);
         Fmobile = (EditText)findViewById(R.id.fmobile);
         Fadd1 = (EditText)findViewById(R.id.fadd1);
         Fadd2 = (EditText)findViewById(R.id.fadd2);
         Fpin = (EditText)findViewById(R.id.fpin);
         btnReg = (Button)findViewById(R.id.btn_fregister);
 
-        FnameText.setText("Current User : "+MainActivity.CurrUser);
+        //FnameText.setText("Current User : "+MainActivity.CurrUser);
 
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String tname = Fname.getText().toString();
                 String tmobile = Fmobile.getText().toString();
                 String tadd1 = Fadd1.getText().toString();
                 String tadd2 = Fadd2.getText().toString();
                 String tpin = Fpin.getText().toString();
-                if( tmobile.matches("")){
+                if( tname.matches("")){
+                    Toast.makeText(RegisterForm.this,"Write Name",Toast.LENGTH_SHORT).show();
+                }
+                else if( tmobile.matches("")){
                     Toast.makeText(RegisterForm.this,"Write Mobile No",Toast.LENGTH_SHORT).show();
                 }
                 else if(tadd1.matches("")){
@@ -89,7 +93,8 @@ public class RegisterForm extends AppCompatActivity {
     public void sendData() {
         String userEmail = MainActivity.MainCurrUserEmail;
         String userKey = userEmail.replace(".","");
-        String userName = MainActivity.CurrUser;
+        //String userName = MainActivity.CurrUser;
+        String name = Fname.getText().toString();
         String mobile = Fmobile.getText().toString();
         String add1 = Fadd1.getText().toString();
         String add2 = Fadd2.getText().toString();
@@ -108,7 +113,7 @@ public class RegisterForm extends AppCompatActivity {
         mRef.setValue(mobile);
         //Toast.makeText(RegisterForm.this,"Sending "+mobile,Toast.LENGTH_SHORT).show();
         mRef = mData.getReference().child("users").child(userKey).child("name");
-        mRef.setValue(userName);
+        mRef.setValue(name);
         //Toast.makeText(RegisterForm.this,"Sending "+userName,Toast.LENGTH_SHORT).show();
         mRef = mData.getReference().child("users").child(userKey).child("pincode");
         mRef.setValue(pin);
