@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,ForgotPasswordActivity.class));
         }
         else if (id == R.id.nav_reset) {
-            mFragment=new AboutUs();
+            mFragment=new ProfileActivity();
             FragmentManager manager=getSupportFragmentManager();
             FragmentTransaction fragmentTransaction=manager.beginTransaction();
             fragmentTransaction.replace(R.id.alternatingLayout,mFragment);
