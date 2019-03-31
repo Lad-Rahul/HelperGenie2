@@ -7,14 +7,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class RecyclerSp extends RecyclerView.Adapter<RecyclerSp.HolderClass> {
     Context ct;
     String name[],mobile[],email[],id[],rating[];
     int ordercomplete[];
+
+       ClickListener listener = null;
+//    private final List<Button> buttonList;
+//
+//    public RecyclerSp(List<Button> button, ClickListener listener) {
+//        this.listener = listener;
+//        this.buttonList = button;
+//    }
+
+
 
     public RecyclerSp(Context ctx,String dataname[],String dataemail[],String datamobile[],String dataid[],String datarating[],int dataordercomplete[]) {
         ct = ctx;
@@ -30,7 +45,7 @@ public class RecyclerSp extends RecyclerView.Adapter<RecyclerSp.HolderClass> {
     public HolderClass onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater mInflator = LayoutInflater.from(ct);
         View mView = mInflator.inflate(R.layout.sp_details,parent,false);
-        return new HolderClass(mView);
+        return new HolderClass((mView),listener);
     }
 
     @Override
@@ -57,13 +72,15 @@ public class RecyclerSp extends RecyclerView.Adapter<RecyclerSp.HolderClass> {
         return name.length;
     }
 
-    public class HolderClass extends RecyclerView.ViewHolder {
+    public class HolderClass extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name,emailID,mobile,ordercomplete;
+        Button btnOrder;
         ImageView phoneCall;
         RatingBar ratingBar;
+        private WeakReference<ClickListener> listenerRef;
 
-        public HolderClass(View itemView) {
+        public HolderClass(View itemView,ClickListener listener) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.spName);
             emailID = (TextView) itemView.findViewById(R.id.spEmail);
@@ -71,6 +88,31 @@ public class RecyclerSp extends RecyclerView.Adapter<RecyclerSp.HolderClass> {
             ordercomplete = (TextView) itemView.findViewById(R.id.spordercomplete);
             phoneCall = (ImageView) itemView.findViewById(R.id.phoneCall);
             ratingBar = (RatingBar)itemView.findViewById(R.id.ratingBar);
+            btnOrder = (Button)itemView.findViewById(R.id.btn_order);
+
+            listenerRef = new WeakReference<>(listener);
+            itemView.setOnClickListener(this);
+            btnOrder.setOnClickListener(this);
+
         }
+
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == btnOrder.getId()){
+                String text = "btn : " + btnOrder.getId();
+
+                Toast.makeText(ct,text, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+//        MyAdapter adapter = new MyAdapter(myItems, new ClickListener() {
+//            @Override public void onPositionClicked(int position) {
+//                // callback performed on click
+//            }
+//
+//            @Override public void onLongClicked(int position) {
+//                // callback performed on click
+//            }
+//        });
     }
 }

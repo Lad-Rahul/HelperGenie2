@@ -25,7 +25,6 @@ public class DisplaySp extends AppCompatActivity {
         rec3Rating = extra.getStringArray("ratings");
         rec3ordercomplete = extra.getIntArray("ordercomplete");
 
-
         rv = (RecyclerView) findViewById(R.id.recyclerViewSP);
 
         ra = new RecyclerSp(this,rec3Name,rec3Email,rec3Mobile,rec3ID,rec3Rating,rec3ordercomplete);
