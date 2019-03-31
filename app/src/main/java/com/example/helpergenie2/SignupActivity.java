@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -22,6 +24,11 @@ public class SignupActivity extends AppCompatActivity {
     private Button btnGoLogin,btnSignup;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+
+    private EditText Fmobile,Fadd1,Fadd2,Fpin,Fname;
+    //private TextView FnameText;
+    private FirebaseDatabase mData;
+    private DatabaseReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,42 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(SignupActivity.this,"Authantication Failed" + task.getException(),Toast.LENGTH_SHORT).show();
                         }
                         else {
+
+                            String tname = Fname.getText().toString();
+                            String tmobile = Fmobile.getText().toString();
+                            String tadd1 = Fadd1.getText().toString();
+                            String tadd2 = Fadd2.getText().toString();
+                            String tpin = Fpin.getText().toString();
+                            if( tname.matches("")){
+                                Toast.makeText(SignupActivity.this,"Write Name",Toast.LENGTH_SHORT).show();
+                            }
+                            else if( tmobile.matches("")){
+                                Toast.makeText(SignupActivity.this,"Write Mobile No",Toast.LENGTH_SHORT).show();
+                            }
+                            else if(tadd1.matches("")){
+                                Toast.makeText(SignupActivity.this,"Write Address line 1",Toast.LENGTH_SHORT).show();
+                            }
+                            else if(tadd2.matches("")){
+                                Toast.makeText(SignupActivity.this,"Write Address line 2",Toast.LENGTH_SHORT).show();
+                            }
+                            else if(tpin.matches("")){
+                                Toast.makeText(SignupActivity.this,"Write Pincode",Toast.LENGTH_SHORT).show();
+                            }
+                            else if(tpin.length() != 6){
+                                Toast.makeText(SignupActivity.this,"Enter Proper Pincode",Toast.LENGTH_SHORT).show();
+                            }
+                            else if(tmobile.length() != 10){
+                                Toast.makeText(SignupActivity.this,"Enter Proper Mobile no",Toast.LENGTH_SHORT).show();
+                            }
+                            else if(checkmobile(tmobile) == false)
+                            {
+                                Toast.makeText(SignupActivity.this,"Enter Proper Mobile No",Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                sendData();
+                            }
+
+
                             Intent intent = new Intent(SignupActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -88,7 +131,60 @@ public class SignupActivity extends AppCompatActivity {
             }
 
         });
+
+
     }
+
+    public void sendData() {
+        String userEmail = MainActivity.MainCurrUserEmail;
+        String userKey = userEmail.replace(".","");
+        //String userName = MainActivity.CurrUser;
+        String name = Fname.getText().toString();
+        String mobile = Fmobile.getText().toString();
+        String add1 = Fadd1.getText().toString();
+        String add2 = Fadd2.getText().toString();
+        String pin = Fpin.getText().toString();
+
+        mRef = mData.getReference().child("users").child(userKey).child("address");
+        mRef.setValue(add1);
+        //Toast.makeText(SignupActivity.this,"Sending "+add1,Toast.LENGTH_SHORT).show();
+        mRef = mData.getReference().child("users").child(userKey).child("address2");
+        mRef.setValue(add2);
+        //Toast.makeText(SignupActivity.this,"Sending "+add2,Toast.LENGTH_SHORT).show();
+        mRef = mData.getReference().child("users").child(userKey).child("email");
+        mRef.setValue(userEmail);
+        //Toast.makeText(SignupActivity.this,"Sending "+userEmail,Toast.LENGTH_SHORT).show();
+        mRef = mData.getReference().child("users").child(userKey).child("mobile");
+        mRef.setValue(mobile);
+        //Toast.makeText(SignupActivity.this,"Sending "+mobile,Toast.LENGTH_SHORT).show();
+        mRef = mData.getReference().child("users").child(userKey).child("name");
+        mRef.setValue(name);
+        //Toast.makeText(SignupActivity.this,"Sending "+userName,Toast.LENGTH_SHORT).show();
+        mRef = mData.getReference().child("users").child(userKey).child("pincode");
+        mRef.setValue(pin);
+        //Toast.makeText(SignupActivity.this,"Sending "+pin,Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    public boolean checkmobile(String mob){
+        int flag = 0;
+        for(int i=0;i<mob.length();i++){
+            if(mob.charAt(i) == '0' || mob.charAt(i) == '1' || mob.charAt(i) == '2' || mob.charAt(i) == '3' || mob.charAt(i) == '4' || mob.charAt(i) == '5' || mob.charAt(i) == '6' || mob.charAt(i) == '7' || mob.charAt(i) == '8' || mob.charAt(i) == '9' ){
+            }
+            else{
+                flag = 1;
+                break;
+            }
+        }
+
+        if(flag == 1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
     @Override
     protected void onResume(){
         super.onResume();

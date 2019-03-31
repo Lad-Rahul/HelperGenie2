@@ -42,6 +42,58 @@
             android:focusableInTouchMode="true"
             android:textColor="@color/white"/>
 
+        <EditText
+            android:id="@+id/fname"
+            android:hint="First Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/white"/>
+
+        <EditText
+            android:id="@+id/fmobile"
+            android:hint="Mobile Number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:focusableInTouchMode="true"
+            android:textColor="@color/white"/>
+
+        <EditText
+            android:id="@+id/fadd1"
+            android:hint="Address line 1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/white"/>
+
+        <EditText
+            android:id="@+id/fadd2"
+            android:hint="Address line 2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:focusableInTouchMode="true"
+            android:textColor="@color/white"/>
+
+        <EditText
+            android:id="@+id/fpin"
+            android:hint="Pincode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/white"/>
+
         <Button
             android:id="@+id/btn_signup"
             android:text="@string/action_sign_in_short"
