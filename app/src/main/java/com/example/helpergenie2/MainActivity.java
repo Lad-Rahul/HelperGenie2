@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity
         if(user != null){
             //CurrUser = user.getDisplayName();
             MainCurrUserEmail = user.getEmail().toString();
-            checkFormAndSaveDetails(user.getEmail().toString().replace(".",""));
         }
         else{
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
@@ -80,6 +79,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fragmentManager =  getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new HomeActivity()).commit();
+
     }
 
     @Override
@@ -100,16 +103,14 @@ public class MainActivity extends AppCompatActivity
             //CurrUser = user.getDisplayName();
             MainCurrUserEmail = user.getEmail().toString();
             //pd2.dismiss();
-            checkFormAndSaveDetails(user.getEmail().toString().replace(".",""));
+            //checkFormAndSaveDetails(user.getEmail().toString().replace(".",""));
         } else {
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
         }
         if(!flag) {
-           // navigationView.getMenu().getItem(0).setChecked(true);
+            flag = true;
+           navigationView.getMenu().getItem(0).setChecked(true);
         }
-        //Only For DEVELOPMENT OF RETRIVEING DATA:::::::::::::::::::::::
-        //Intent i1 = new Intent(this,TrialFirebase.class);
-        //startActivity(i1);
     }
 
     @Override
@@ -118,10 +119,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(0);
-            //super.onBackPressed();
+            super.onBackPressed();
         }
     }
 
@@ -140,8 +138,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-            AuthUI.getInstance().signOut(this);
-            //Toast.makeText(MainActivity.this, "Sucessfully LoggedOut", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
             onResume();
             return true;
         }
@@ -156,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         fragmentManager =  getSupportFragmentManager();
         if (id == R.id.nav_home) {
-
+            fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new HomeActivity()).commit();
         } else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.alternatingLayout,new ProfileActivity()).commit();
         }
@@ -199,31 +196,31 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void checkFormAndSaveDetails(String userEmail) {
-        FirebaseDatabase mData;
-        DatabaseReference mRef;
-
-        mData = FirebaseDatabase.getInstance();
-        mRef = mData.getReference().child("users").child(userEmail);
-
-        ValueEventListener val = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                FireUser fireUser = dataSnapshot.getValue(FireUser.class);
-                if (fireUser == null){
-                    Intent i1 =  new Intent(MainActivity.this,RegisterForm.class);
-                    startActivity(i1);
-                }else{
-
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        mRef.addValueEventListener(val);
-
-
-    }
+//    private void checkFormAndSaveDetails(String userEmail) {
+//        FirebaseDatabase mData;
+//        DatabaseReference mRef;
+//
+//        mData = FirebaseDatabase.getInstance();
+//        mRef = mData.getReference().child("users").child(userEmail);
+//
+//        ValueEventListener val = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                FireUser fireUser = dataSnapshot.getValue(FireUser.class);
+//                if (fireUser == null){
+//                    Intent i1 =  new Intent(MainActivity.this,RegisterForm.class);
+//                    startActivity(i1);
+//                }else{
+//
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        };
+//        mRef.addValueEventListener(val);
+//
+//
+//    }
 }
