@@ -44,6 +44,13 @@ public class SignupActivity extends AppCompatActivity {
         InputPasswd = (EditText) findViewById(R.id.passwd);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
+        mData = FirebaseDatabase.getInstance();
+        Fname = (EditText)findViewById(R.id.fname);
+        Fmobile = (EditText)findViewById(R.id.fmobile);
+        Fadd1 = (EditText)findViewById(R.id.fadd1);
+        Fadd2 = (EditText)findViewById(R.id.fadd2);
+        Fpin = (EditText)findViewById(R.id.fpin);
+
         btnGoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,9 +143,11 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void sendData() {
-        String userEmail = MainActivity.MainCurrUserEmail;
-        String userKey = userEmail.replace(".","");
+        //String userEmail = MainActivity.MainCurrUserEmail;
+        //String userKey = userEmail.replace(".","");
         //String userName = MainActivity.CurrUser;
+        String userEmail = InputEmail.getText().toString();
+        String userKey = InputEmail.getText().toString().replace(".","");
         String name = Fname.getText().toString();
         String mobile = Fmobile.getText().toString();
         String add1 = Fadd1.getText().toString();

@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         }
         if(!flag) {
             flag = true;
-           navigationView.getMenu().getItem(0).setChecked(true);
+           //navigationView.getMenu().getItem(0).setChecked(true);
         }
     }
 
