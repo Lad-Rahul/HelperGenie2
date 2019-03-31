@@ -43,6 +43,7 @@ public class HomeActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.activity_home,container,false);
         getActivity().setTitle("Home");
+
 //        ConstraintLayout ctl = mView.findViewById(R.id.constraintLayout);
 //        if(IsFirstTimeLaunced() == true){
 //            ctl.setVisibility(ConstraintLayout.INVISIBLE);
@@ -50,6 +51,7 @@ public class HomeActivity extends Fragment {
 //            ctl.setVisibility(ConstraintLayout.VISIBLE);
 //        }
 //        getActivity().setTitle("Home");
+
         Log.d("Pranav","EXE 1");
         String[] listSP = {"Plumber" , "Electrician" , "Carpenter","PestControl","HomeCleaner","Mechannic" };
         searchSP = (Spinner)mView.findViewById(R.id.search_sp);
@@ -138,11 +140,11 @@ public class HomeActivity extends Fragment {
             public void onClick(View view) {
                 if(searchPin.getSelectedItem() == null) {
                 }else{
-//                    Intent intent = new Intent(getActivity(),GetSp.class);
-//                    Log.d("Pranav","EXE 5");
-//                    intent.putStringArrayListExtra("Service Provider at this Location",pinObjectList);
-//                    intent.putExtra("Service Provider Proffesion",selectPro);
-//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(),GetSp.class);
+                    Log.d("Pranav","EXE 5");
+                    intent.putStringArrayListExtra("Service Provider at this Location",pinObjectList);
+                    intent.putExtra("Service Provider Proffesion",selectPro);
+                    startActivity(intent);
                 }
             }
         });
@@ -160,7 +162,7 @@ public class HomeActivity extends Fragment {
 
             String SinglePin = (String)entry.getKey();
             Map SingleUser = (Map)entry.getValue();
-
+            Log.d("aaa",SinglePin);
             pinList.add(SinglePin);
             pinObjectList.add(SingleUser);
         }

@@ -24,13 +24,21 @@ public class GetSp extends AppCompatActivity {
     private String name,proffesion,email,mobile,SPpro;
     private int ordercomplete;
     private TextView textView;
+
+    String recName[],recID[],recEmail[],recMobile[],recRating[];
+    int recordercomplete[];
+    ArrayList<String> rec2Name = new ArrayList<>();
+    ArrayList<String> rec2ID = new ArrayList<>();
+    ArrayList<String> rec2Email = new ArrayList<>();
+    ArrayList<String> rec2Mobile = new ArrayList<>();
+    ArrayList<String> rec2Rating = new ArrayList<>();
+    ArrayList<Integer> rec2ordercomplete = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_get_sp);
-
-
 
         final ArrayList<String> ListSP2 = new ArrayList<>();
         ArrayList<String> ListSP = new ArrayList<>();
@@ -69,22 +77,46 @@ public class GetSp extends AppCompatActivity {
                     proffesion = fireSP.getProffesion();
                     ordercomplete = fireSP.getOrdercomplete();
 
-//                    Log.d("hello1","name :" + name);
-//                    Log.d("hello1","email :" + email);
-//                    Log.d("hello1","mobile :" + mobile);
-//                    Log.d("hello1","proffesion :" + proffesion);
 
                     if(proffesion.equals(SPpro)){
                         Log.d("hello1","name :" + name);
-                        ListSP2.add(tempSP);
+
+                        rec2Name.add(fireSP.getName());
+                        rec2Email.add(fireSP.getEmail());
+                        rec2Mobile.add(fireSP.getMobile());
+                        rec2Rating.add(fireSP.getRating());
+                        rec2ID.add(tempSP);
+                        rec2ordercomplete.add(fireSP.getOrdercomplete());
+                        //ListSP2.add(tempSP);
                         //ListSP2.add(fireSP);
                     }
 
                     if(finalI == finalListSP.size()-1){
-//                        Intent intent=new Intent(get_sp.this,displaySP.class);
-//                        intent.putExtra("Service providers selected",ListSP2);
-//                        startActivity(intent);
-//                        finish();
+
+                        recName = new String[rec2Name.size()];
+                        recMobile = new String[rec2Mobile.size()];
+                        recEmail = new String[rec2Email.size()];
+                        recRating = new String[rec2Email.size()];
+                        recID = new String[rec2Name.size()];
+                        recordercomplete = new int[rec2ordercomplete.size()];
+
+                        for (int j = 0; j < rec2Name.size(); j++) {
+                            recName[j] = rec2Name.get(j);
+                            recEmail[j] = rec2Email.get(j);
+                            recMobile[j] = rec2Mobile.get(j);
+                            recRating[j] = rec2Rating.get(j);
+                            recID[j] = rec2ID.get(j);
+                            recordercomplete[j] = rec2ordercomplete.get(j);
+                        }
+                        Intent go = new Intent(GetSp.this, DisplaySp.class);
+                        go.putExtra("names", recName);
+                        go.putExtra("emails", recEmail);
+                        go.putExtra("mobiles", recMobile);
+                        go.putExtra("ratings", recRating);
+                        go.putExtra("IDs", recID);
+                        go.putExtra("ordercomplete", recordercomplete);
+                        startActivity(go);
+                        finish();
                     }
                     //FireSP i = new FireSP(email,mobile,name,proffesion);
                 }
