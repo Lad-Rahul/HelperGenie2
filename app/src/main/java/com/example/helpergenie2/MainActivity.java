@@ -118,7 +118,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+            //super.onBackPressed();
         }
     }
 
