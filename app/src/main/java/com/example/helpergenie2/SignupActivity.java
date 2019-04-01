@@ -23,10 +23,11 @@ public class SignupActivity extends AppCompatActivity {
     private EditText InputEmail,InputPasswd;
     private Button btnGoLogin,btnSignup;
     private ProgressBar progressBar;
-    private FirebaseAuth auth;
+
 
     private EditText Fmobile,Fadd1,Fadd2,Fpin,Fname;
     //private TextView FnameText;
+    private FirebaseAuth auth;
     private FirebaseDatabase mData;
     private DatabaseReference mRef;
 

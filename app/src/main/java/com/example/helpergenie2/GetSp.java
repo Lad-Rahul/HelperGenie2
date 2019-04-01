@@ -25,13 +25,14 @@ public class GetSp extends AppCompatActivity {
     private int ordercomplete;
     private TextView textView;
 
-    String recName[],recID[],recEmail[],recMobile[],recRating[];
+    String recName[],recID[],recEmail[],recMobile[],recRating[],recProfession[];
     int recordercomplete[];
     ArrayList<String> rec2Name = new ArrayList<>();
     ArrayList<String> rec2ID = new ArrayList<>();
     ArrayList<String> rec2Email = new ArrayList<>();
     ArrayList<String> rec2Mobile = new ArrayList<>();
     ArrayList<String> rec2Rating = new ArrayList<>();
+    ArrayList<String> rec2Profession = new ArrayList<>();
     ArrayList<Integer> rec2ordercomplete = new ArrayList<>();
 
     @Override
@@ -87,6 +88,7 @@ public class GetSp extends AppCompatActivity {
                         rec2Rating.add(fireSP.getRating());
                         rec2ID.add(tempSP);
                         rec2ordercomplete.add(fireSP.getOrdercomplete());
+                        rec2Profession.add(fireSP.getProffesion());
                         //ListSP2.add(tempSP);
                         //ListSP2.add(fireSP);
                     }
@@ -99,6 +101,7 @@ public class GetSp extends AppCompatActivity {
                         recRating = new String[rec2Email.size()];
                         recID = new String[rec2Name.size()];
                         recordercomplete = new int[rec2ordercomplete.size()];
+                        recProfession = new String[rec2Profession.size()];
 
                         for (int j = 0; j < rec2Name.size(); j++) {
                             recName[j] = rec2Name.get(j);
@@ -107,6 +110,7 @@ public class GetSp extends AppCompatActivity {
                             recRating[j] = rec2Rating.get(j);
                             recID[j] = rec2ID.get(j);
                             recordercomplete[j] = rec2ordercomplete.get(j);
+                            recProfession[j] = rec2Profession.get(j);
                         }
                         Intent go = new Intent(GetSp.this, DisplaySp.class);
                         go.putExtra("names", recName);
@@ -115,6 +119,7 @@ public class GetSp extends AppCompatActivity {
                         go.putExtra("ratings", recRating);
                         go.putExtra("IDs", recID);
                         go.putExtra("ordercomplete", recordercomplete);
+                        go.putExtra("profession",recProfession);
                         startActivity(go);
                         finish();
                     }
