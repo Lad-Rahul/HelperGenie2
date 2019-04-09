@@ -53,8 +53,8 @@ public class HistoryActivity extends Fragment {
                     Map map = (Map)entry.getValue();
                     id.add(tempid);
                     records.add(map);
-
                 }
+
 
                 Log.d("history",records.toString());
             }
@@ -66,10 +66,7 @@ public class HistoryActivity extends Fragment {
         });
 
 
-
         return inflater.inflate(R.layout.fragment_history, container, false);
-
-
 
     }
 
