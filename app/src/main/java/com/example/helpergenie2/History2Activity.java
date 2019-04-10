@@ -1,6 +1,8 @@
 package com.example.helpergenie2;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +27,8 @@ public class History2Activity extends AppCompatActivity {
     private DatabaseReference mRef;
     private FirebaseAuth auth;
     private LinearLayout mLinearLayout;
-    LinearLayout l1;
+    LinearLayout l1,child1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,26 @@ public class History2Activity extends AppCompatActivity {
 
                 Log.d("aaaa",""+dataSnapshot.child(userEmail).getChildren());
 
+                if(size==0){
+                    LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    l1=new LinearLayout(History2Activity.this);
+                    l1.setLayoutParams(lparams);
+                    l1.setOrientation(LinearLayout.VERTICAL);
+                    //l1.setPadding(30,30,30,30);
+                    lparams.setMargins(10,10,10,10);
+
+                    TextView t1=new TextView(History2Activity.this);
+                    t1.setLayoutParams(lparams);
+                    t1.setTextSize(25);
+                    t1.setText("No history yet");
+
+                    l1.addView(t1);
+
+                    mLinearLayout.addView(l1);
+
+                }
+
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     //Log.d("aaaa",ds.getKey());
                     HistoryUser historyUser=ds.getValue(HistoryUser.class);
@@ -77,18 +100,45 @@ public class History2Activity extends AppCompatActivity {
                     //Log.d("context",getActivity()+"");
 
                     LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     l1=new LinearLayout(History2Activity.this);
                     l1.setLayoutParams(lparams);
                     l1.setOrientation(LinearLayout.VERTICAL);
+                    //l1.setPadding(30,30,30,30);
+                    lparams.setMargins(10,10,10,10);
+
+                    child1=new LinearLayout(History2Activity.this);
+                    child1.setLayoutParams(lparams);
+                    child1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.border1));
+                    child1.setOrientation(LinearLayout.VERTICAL);
+                    child1.setPadding(30,30,30,30);
+
+                    LinearLayout.LayoutParams lparams_t = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
                     TextView t1=new TextView(History2Activity.this);
                     t1.setLayoutParams(lparams);
-                    t1.setTextSize(20);
-                    if(historyUser!=null)
-                        t1.setText(historyUser.getName());
+                    t1.setTextSize(25);
 
-                    l1.addView(t1);
+
+                    TextView t2=new TextView(History2Activity.this);
+                    t2.setLayoutParams(lparams);
+                    t2.setTextSize(20);
+
+                    TextView t3=new TextView(History2Activity.this);
+                    t3.setLayoutParams(lparams);
+                    t3.setTextSize(20);
+
+                    if(historyUser!=null) {
+                        t1.setText("Name : "+historyUser.getName());
+                        t2.setText("Proffession : "+historyUser.getProffession());
+                        t3.setText("Time : "+historyUser.getTime());
+                    }
+                    child1.addView(t1);
+                    child1.addView(t2);
+                    child1.addView(t3);
+
+                    l1.addView(child1);
                     //Log.d("aaaa",t1.getText()+"");
                     //Log.d("aaaa",mLinearLayout+"");
                     mLinearLayout.addView(l1);
